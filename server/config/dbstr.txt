@@ -1,0 +1,1 @@
+mongodb+srv://BaskaranJeeva:nKUtKpkqHFfVfHNk@cluster0.04alcff.mongodb.net/BMS?retryWrites=true&w=majority&appName=Cluster0
