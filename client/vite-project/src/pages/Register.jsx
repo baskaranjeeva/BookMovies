@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Checkbox, Form, Input } from "antd";
 import "./auth.css"; // Importing CSS for consistency
 import { Link } from "react-router-dom";
-// import { RegisterUser } from "../apiCalls/users";
+import { RegisterUser } from "../apiCalls/users";
 
 const onFinish = (values) => {
   console.log("Success:", values);
@@ -12,6 +12,12 @@ const onFinishFailed = (errorInfo) => {
 };
 
 function Register() {
+  const registerData = async (values) => {
+    console.log(values);
+
+    const response = await RegisterUser(values);
+    console.log(response);
+  };
   return (
     <div>
       <div className="auth-container">
@@ -20,11 +26,8 @@ function Register() {
           <Form
             name="basic"
             layout="vertical"
-            // labelCol={{ span: 8 }}
-            // wrapperCol={{ span: 16 }}
-            // style={{ maxWidth: 600 }}
             initialValues={{ remember: true }}
-            onFinish={onFinish}
+            onFinish={registerData}
             onFinishFailed={onFinishFailed}
             autoComplete="off"
           >
