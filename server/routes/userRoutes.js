@@ -2,6 +2,7 @@ const express = require("express");
 const User = require("../models/userModel");
 const router = express.Router();
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 router.post("/register", async (req, res) => {
   try {
@@ -32,7 +33,6 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const userExists = await User.findOne({ email: req.body.email });
-
     if (!userExists) {
       res.send({
         success: false,
@@ -43,17 +43,21 @@ router.post("/login", async (req, res) => {
       req.body.password,
       userExists.password
     );
-
     if (!validPassword) {
       res.status(401).send({
         success: false,
         message: "Sorry, Incorrect password",
       });
     }
-    // console.log(userExists);
+
+    const jwtToken = jwt.sign({ userId: userExists._id }, "scaler_movies", {
+      expiresIn: "2d",
+    });
+
     res.send({
       success: true,
       message: "Login Successfully",
+      token: jwtToken,
     });
   } catch (error) {
     console.log(error);
