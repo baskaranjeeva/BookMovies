@@ -12,7 +12,7 @@ function Login() {
       const response = await LoginUser(values);
       console.log(response);
       if (response.success) {
-        // make the user go to the app page
+        localStorage.setItem("token", response.token);
         navigate("/");
       } else {
         // check you credentials
