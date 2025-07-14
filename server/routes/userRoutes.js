@@ -3,6 +3,7 @@ const User = require("../models/userModel");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const authMiddleware = require("../middlewares/authMiddleware");
 
 router.post("/register", async (req, res) => {
   try {
@@ -62,6 +63,15 @@ router.post("/login", async (req, res) => {
   } catch (error) {
     console.log(error);
   }
+});
+
+router.get("/get-valid-user", authMiddleware, async (req, res) => {
+  const validUser = await User.findById(req.body.userId).select("-password");
+  res.send({
+    success: true,
+    message: "You are authorized to go to the protected route!",
+    data: validUser,
+  });
 });
 
 module.exports = router;
